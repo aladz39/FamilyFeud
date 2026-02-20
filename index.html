@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فاميلي فيود - النسخة العربية</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+        font-family: 'Cairo', sans-serif;
+        background: #0a0a2e;
+        min-height: 100vh;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        max-width: 100vw;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    /* ===== كل الشاشات ===== */
+    .screen {
+        display: none;
+        min-height: 100vh;
+        min-height: 100dvh;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 430px;
+        margin: 0 auto;
+        padding: 12px 14px;
+    }
+
+    .screen.active {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* ===== شاشة الترحيب ===== */
+    .logo-star { font-size: 50px; }
+    .game-title { font-size: 1.9rem; }
+    .game-subtitle { font-size: 0.9rem; margin-bottom: 25px; }
+
+    .btn {
+        padding: 13px 25px;
+        font-size: 1.05rem;
+        width: 100%;
+        border-radius: 50px;
+    }
+
+    .menu-buttons { gap: 10px; width: 100%; }
+
+    .btn-back {
+        padding: 10px 25px;
+        font-size: 0.95rem;
+    }
+
+    .high-score-display { font-size: 0.8rem; }
+
+    /* ===== طريقة اللعب ===== */
+    #howToPlayScreen {
+        justify-content: flex-start;
+        padding-top: 18px;
+    }
+
+    .how-title { font-size: 1.5rem; margin-bottom: 15px; }
+
+    .rule-card {
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        gap: 10px;
+        border-radius: 12px;
+    }
+
+    .rule-number {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+
+    .rule-text { font-size: 0.82rem; line-height: 1.6; }
+
+    /* ===== الإعدادات ===== */
+    .setup-title { font-size: 1.4rem; margin-bottom: 20px; }
+
+    .team-input-group { margin-bottom: 16px; }
+    .team-input-group label { font-size: 0.95rem; margin-bottom: 5px; }
+    .team-input-group input {
+        padding: 11px 12px;
+        font-size: 1rem;
+        border-radius: 11px;
+    }
+
+    .rounds-selector { margin: 18px 0; }
+    .rounds-selector label { font-size: 0.95rem; margin-bottom: 8px; }
+
+    .round-option {
+        width: 46px;
+        height: 46px;
+        font-size: 1.15rem;
+        border-radius: 11px;
+    }
+
+    /* ===== شاشة اللعب ===== */
+    #gameScreen {
+        padding: 8px 10px;
+        justify-content: flex-start;
+        padding-top: 8px;
+    }
+
+    .game-header {
+        margin-bottom: 5px;
+        gap: 10px;
+    }
+
+    .player-score-card {
+        padding: 5px 16px;
+        border-radius: 12px;
+    }
+
+    .player-name-display { font-size: 0.78rem; }
+    .player-score-display { font-size: 1.4rem; }
+    .round-number { font-size: 0.72rem; }
+
+    .progress-bar-container {
+        height: 4px;
+        margin-bottom: 5px;
+    }
+
+    .round-pot { margin-bottom: 4px; }
+    .pot-label { font-size: 0.68rem; }
+    .pot-value { font-size: 1.2rem; }
+
+    .question-board { margin-bottom: 7px; }
+
+    .question-display {
+        border-radius: 12px;
+        padding: 9px 10px;
+        margin-bottom: 7px;
+        border-width: 2px;
+    }
+
+    .question-text {
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+
+    .answers-board { gap: 4px; }
+
+    .answer-row {
+        height: 40px;
+        border-radius: 10px;
+        border-width: 1.5px;
+    }
+
+    .answer-number {
+        width: 30px;
+        font-size: 0.85rem;
+    }
+
+    .answer-text {
+        padding: 0 7px;
+        font-size: 0.85rem;
+    }
+
+    .answer-points {
+        width: 42px;
+        font-size: 0.85rem;
+    }
+
+    .input-area {
+        gap: 6px;
+        margin-bottom: 5px;
+    }
+
+    .answer-input {
+        padding: 9px 10px;
+        font-size: 0.95rem;
+        border-radius: 50px;
+    }
+
+    .btn-submit {
+        padding: 9px 16px;
+        font-size: 0.9rem;
+    }
+
+    .duplicate-msg {
+        font-size: 0.78rem;
+        min-height: 18px;
+        margin-bottom: 3px;
+    }
+
+    .strikes-area {
+        gap: 8px;
+        margin-bottom: 5px;
+    }
+
+    .strike {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        font-size: 1.2rem;
+        border-width: 2px;
+    }
+
+    .game-controls { gap: 6px; }
+
+    .btn-control {
+        padding: 7px 16px;
+        font-size: 0.82rem;
+    }
+
+    /* ===== الأوفرليز ===== */
+    .wrong-x { font-size: 7rem; }
+    .correct-check { font-size: 6rem; }
+
+    /* ===== شاشة النهاية ===== */
+    .trophy { font-size: 4rem; }
+    .end-title { font-size: 1.5rem; margin: 8px 0 5px; }
+    .end-score { font-size: 1.1rem; margin-bottom: 5px; }
+    .stars-rating { font-size: 1.8rem; margin-bottom: 10px; }
+    .end-details { font-size: 0.85rem; margin-bottom: 18px; line-height: 1.8; }
+    .end-buttons { gap: 10px; width: 100%; }
+
+    /* ===== الصوت ===== */
+    .sound-toggle {
+        top: 8px;
+        left: 8px;
+        width: 34px;
+        height: 34px;
+        font-size: 0.95rem;
+    }
+
+    /* ===== الجزيئات ===== */
+    .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .particle { position: absolute; width: 3px; height: 3px; background: gold; border-radius: 50%; animation: float-particle linear infinite; opacity: 0.6; }
+    @keyframes float-particle { 0% { transform: translateY(100vh); opacity: 0; } 10% { opacity: 0.6; } 90% { opacity: 0.6; } 100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; } }
+
+    /* ===== الأنيميشن الأساسية (بدون تغيير) ===== */
+    @keyframes logoEntry { from { transform: scale(0) rotate(-180deg); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    @keyframes rotateStar { 0%, 100% { transform: scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+    @keyframes gradientShift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    @keyframes fadeInUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes slideInRight { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes borderGlow { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+    @keyframes revealFlash { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+    @keyframes strikeShake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-10deg) scale(1.2); } 75% { transform: rotate(10deg) scale(1.2); } }
+    @keyframes wrongFade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes wrongPulse { from { transform: scale(0) rotate(-45deg); } to { transform: scale(1); } }
+    @keyframes correctFade { 0% { opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes trophyBounce { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-12px) rotate(-5deg); } 75% { transform: translateY(-12px) rotate(5deg); } }
+    @keyframes confettiFall { 0% { transform: translateY(-10px) rotate(0); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+    /* ===== ألوان وتأثيرات (بدون تغيير) ===== */
+    #welcomeScreen { background: radial-gradient(ellipse at center, #1a1a4e 0%, #0a0a2e 70%); text-align: center; }
+    .logo-container { margin-bottom: 18px; animation: logoEntry 1s ease-out; }
+    .logo-star { display: block; animation: rotateStar 4s linear infinite; filter: drop-shadow(0 0 15px gold); }
+    .game-title { font-weight: 900; background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700, #FF6347); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradientShift 3s ease infinite; margin-bottom: 5px; }
+    .game-subtitle { color: #aaa; animation: fadeInUp 1s ease 0.3s both; }
+    .menu-buttons { display: flex; flex-direction: column; animation: fadeInUp 1s ease 0.6s both; }
+    .btn { font-family: 'Cairo', sans-serif; font-weight: 700; border: none; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+    .btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); transition: left 0.5s; }
+    .btn:active::before { left: 100%; }
+    .btn-play { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; box-shadow: 0 4px 20px rgba(255,215,0,0.4); }
+    .btn-play:active { transform: scale(0.97); }
+    .btn-how { background: linear-gradient(135deg, #4A90D9, #357ABD); color: #fff; box-shadow: 0 4px 20px rgba(74,144,217,0.4); }
+    .btn-how:active { transform: scale(0.97); }
+    .btn-secondary { background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; }
+    .btn-back { background: linear-gradient(135deg, #95a5a6, #7f8c8d); color: #fff; }
+    .btn-back:active { transform: scale(0.97); }
+    .high-score-display { color: #888; margin-top: 8px; }
+    #howToPlayScreen { background: radial-gradient(ellipse at center, #1a1a4e 0%, #0a0a2e 70%); }
+    .how-to-container { width: 100%; }
+    .how-title { color: #FFD700; text-align: center; }
+    .rule-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,215,0,0.2); display: flex; align-items: center; animation: slideInRight 0.5s ease both; }
+    .rule-card:nth-child(1){animation-delay:.1s}.rule-card:nth-child(2){animation-delay:.2s}.rule-card:nth-child(3){animation-delay:.3s}.rule-card:nth-child(4){animation-delay:.4s}.rule-card:nth-child(5){animation-delay:.5s}
+    .rule-number { background: linear-gradient(135deg, #FFD700, #FFA500); display: flex; align-items: center; justify-content: center; font-weight: 900; color: #1a1a2e; flex-shrink: 0; border-radius: 50%; }
+    .rule-text { color: #ddd; }
+    #setupScreen { background: radial-gradient(ellipse at center, #1a1a4e 0%, #0a0a2e 70%); }
+    .setup-container { width: 100%; text-align: center; }
+    .setup-title { color: #FFD700; }
+    .team-input-group { text-align: right; }
+    .team-input-group label { color: #ddd; display: block; }
+    .team-input-group input { font-family: 'Cairo', sans-serif; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: #fff; text-align: center; transition: all 0.3s; }
+    .team-input-group input:focus { outline: none; border-color: #FFD700; background: rgba(255,255,255,0.1); box-shadow: 0 0 12px rgba(255,215,0,0.2); }
+    .rounds-selector { color: #ddd; }
+    .rounds-selector label { display: block; }
+    .rounds-options { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+    .round-option { border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: #FFD700; font-weight: 700; font-family: 'Cairo', sans-serif; cursor: pointer; transition: all 0.3s; }
+    .round-option:active, .round-option.selected { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border-color: #FFD700; transform: scale(1.08); }
+    #gameScreen { background: radial-gradient(ellipse at top, #1a1a4e 0%, #0a0a2e 70%); }
+    .game-header { width: 100%; display: flex; justify-content: center; align-items: center; }
+    .player-score-card { background: rgba(255,255,255,0.05); border: 2px solid #FFD700; text-align: center; box-shadow: 0 0 15px rgba(255,215,0,0.15); }
+    .player-name-display { color: #FFD700; font-weight: 700; }
+    .player-score-display { color: #fff; font-weight: 900; }
+    .round-number { color: #888; }
+    .progress-bar-container { background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; width: 100%; }
+    .progress-bar { background: linear-gradient(90deg, #FFD700, #FFA500); border-radius: 10px; transition: width 0.5s; }
+    .round-pot { text-align: center; }
+    .pot-label { color: #aaa; }
+    .pot-value { color: #FFD700; font-weight: 900; }
+    .question-board { width: 100%; }
+    .question-display { background: linear-gradient(135deg, #2c3e50, #34495e); border: 2px solid #FFD700; text-align: center; position: relative; overflow: hidden; }
+    .question-display::before { content: ''; position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, #FFD700, #FFA500, #FFD700, #FF6347, #FFD700); background-size: 400% 400%; border-radius: 12px; z-index: -1; animation: borderGlow 3s ease infinite; }
+    .question-text { color: #fff; font-weight: 700; position: relative; z-index: 1; }
+    .answers-board { display: flex; flex-direction: column; }
+    .answer-row { display: flex; align-items: center; background: linear-gradient(135deg, #1e3a5f, #2c3e6e); border: 1.5px solid #3a5a8a; overflow: hidden; transition: all 0.3s; }
+    .answer-row.revealed { border-color: #FFD700; background: linear-gradient(135deg, #2a4a2a, #3a6a3a); animation: revealFlash 0.5s ease; }
+    .answer-row.revealed-miss { border-color: #e74c3c; background: linear-gradient(135deg, #4a2a2a, #6a3a3a); opacity: 0.7; }
+    .answer-number { background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: #FFD700; font-weight: 800; flex-shrink: 0; }
+    .answer-text { flex: 1; color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .answer-text.hidden-text { color: transparent; text-shadow: 0 0 10px rgba(255,255,255,0.3); user-select: none; }
+    .answer-points { background: rgba(255,215,0,0.1); display: flex; align-items: center; justify-content: center; color: #FFD700; font-weight: 800; flex-shrink: 0; }
+    .answer-points.hidden-points { color: transparent; }
+    .input-area { width: 100%; display: flex; }
+    .answer-input { flex: 1; font-family: 'Cairo', sans-serif; border: 2px solid rgba(255,215,0,0.3); background: rgba(255,255,255,0.05); color: #fff; text-align: center; min-width: 0; }
+    .answer-input:focus { outline: none; border-color: #FFD700; box-shadow: 0 0 12px rgba(255,215,0,0.2); }
+    .btn-submit { font-family: 'Cairo', sans-serif; font-weight: 700; background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; border: none; border-radius: 50px; cursor: pointer; flex-shrink: 0; }
+    .btn-submit:active { transform: scale(0.95); }
+    .duplicate-msg { color: #e67e22; text-align: center; }
+    .strikes-area { display: flex; justify-content: center; }
+    .strike { border: 2px solid #555; display: flex; align-items: center; justify-content: center; transition: all 0.3s; background: rgba(255,255,255,0.02); }
+    .strike.active { border-color: #e74c3c; background: rgba(231,76,60,0.2); animation: strikeShake 0.5s ease; }
+    .game-controls { display: flex; justify-content: center; }
+    .btn-control { font-family: 'Cairo', sans-serif; font-weight: 600; border: none; border-radius: 50px; cursor: pointer; transition: all 0.3s; }
+    .btn-control:active { transform: scale(0.95); }
+    .btn-next { background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; }
+    .btn-reveal-all { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; }
+    .wrong-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(231,76,60,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .wrong-overlay.show { display: flex; animation: wrongFade 1s ease forwards; }
+    .wrong-x { color: #fff; font-weight: 900; animation: wrongPulse 0.3s ease; }
+    .correct-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(46,204,113,0.85); display: none; align-items: center; justify-content: center; z-index: 1000; }
+    .correct-overlay.show { display: flex; animation: correctFade 0.8s ease forwards; }
+    #endScreen { background: radial-gradient(ellipse at center, #1a1a4e 0%, #0a0a2e 70%); text-align: center; }
+    .trophy { animation: trophyBounce 1s ease infinite; }
+    .end-title { color: #FFD700; }
+    .end-score { color: #fff; }
+    .end-details { color: #aaa; }
+    .end-buttons { display: flex; flex-direction: column; }
+    .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; }
+    .confetti-piece { position: absolute; top: -10px; animation: confettiFall linear forwards; }
+    .sound-toggle { position: fixed; background: rgba(255,255,255,0.1); border: none; border-radius: 50%; cursor: pointer; }
+    .sound-toggle:active { background: rgba(255,255,255,0.3); }
+</style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+
+    <!-- WELCOME SCREEN -->
+    <div class="screen active" id="welcomeScreen">
+        <div class="logo-container">
+            <span class="logo-star">⭐</span>
+        </div>
+        <h1 class="game-title">فاميلي فيود</h1>
+        <p class="game-subtitle">النسخة العربية </p>
+        <div class="menu-buttons">
+            <button class="btn btn-play" onclick="showScreen('setupScreen')">🎮 ابدأ اللعب</button>
+            <button class="btn btn-how" onclick="showScreen('howToPlayScreen')">📖 طريقة اللعب</button>
+        </div>
+        <div class="high-score-display" id="welcomeHighScore"></div>
+    </div>
+
+    <!-- HOW TO PLAY SCREEN -->
+    <div class="screen" id="howToPlayScreen">
+        <div class="how-to-container">
+            <h2 class="how-title">📖 طريقة اللعب</h2>
+
+            <div class="rule-card">
+                <div class="rule-number">1</div>
+                <div class="rule-text">كل سؤال عنده <strong style="color:#FFD700">5 إجابات مخفية</strong> مرتبة حسب الشعبية. حاول تكشفها كلها! 📊</div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">2</div>
+                <div class="rule-text">اكتب إجابتك وإذا كانت قريبة من إجابة موجودة راح تنقبل! مثلاً: <strong style="color:#2ecc71">"بيت" = "منزل"</strong> 🏠</div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">3</div>
+                <div class="rule-text">عندك <strong style="color:#e74c3c">3 أخطاء</strong> بس لكل سؤال! إذا غلطت 3 مرات ينتهي السؤال ❌❌❌</div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">4</div>
+                <div class="rule-text">كل إجابة تكشفها تعطيك <strong style="color:#FFD700">نقاط</strong>! الإجابة الأكثر شعبية = نقاط أكثر 💰</div>
+            </div>
+
+            <div class="rule-card">
+                <div class="rule-number">5</div>
+                <div class="rule-text">حاول تجمع أكبر عدد من النقاط في كل الجولات وحطم رقمك القياسي! 🏆</div>
+            </div>
+
+            <br>
+            <div style="text-align:center">
+                <button class="btn btn-back" onclick="showScreen('welcomeScreen')">🔙 رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SETUP SCREEN -->
+    <div class="screen" id="setupScreen">
+        <div class="setup-container">
+            <h2 class="setup-title">⚙️ إعدادات اللعبة</h2>
+
+            <div class="team-input-group">
+                <label>👤 اسم اللاعب</label>
+                <input type="text" id="playerName" placeholder="اكتب اسمك هنا" value="" maxlength="20">
+            </div>
+
+            <div class="rounds-selector">
+                <label>عدد الجولات (الأسئلة)</label>
+                <div class="rounds-options">
+                    <button class="round-option" onclick="selectRounds(5, this)">5</button>
+                    <button class="round-option selected" onclick="selectRounds(10, this)">10</button>
+                    <button class="round-option" onclick="selectRounds(15, this)">15</button>
+                    <button class="round-option" onclick="selectRounds(20, this)">20</button>
+                    <button class="round-option" onclick="selectRounds(30, this)">30</button>
+                </div>
+            </div>
+
+            <div style="margin-top:30px; display:flex; flex-direction:column; align-items:center; gap:15px;">
+                <button class="btn btn-play" onclick="startGame()">🚀 ابدأ اللعبة</button>
+                <button class="btn btn-back" onclick="showScreen('welcomeScreen')">🔙 رجوع</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div class="screen" id="gameScreen">
+        <div class="game-header">
+            <div class="player-score-card">
+                <div class="player-name-display" id="playerNameDisplay">اللاعب</div>
+                <div class="player-score-display" id="playerScore">0</div>
+            </div>
+            <div class="round-info">
+                <div class="round-number" id="roundNumber">الجولة 1 من 10</div>
+            </div>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar" style="width:0%"></div>
+        </div>
+
+        <div class="round-pot">
+            <div class="pot-label">نقاط هذا السؤال</div>
+            <div class="pot-value" id="roundPot">0</div>
+        </div>
+
+        <div class="question-board">
+            <div class="question-display">
+                <div class="question-text" id="questionText">السؤال سيظهر هنا</div>
+            </div>
+
+            <div class="answers-board" id="answersBoard"></div>
+        </div>
+
+        <div class="input-area" id="inputArea">
+            <input type="text" class="answer-input" id="answerInput" placeholder="اكتب إجابتك هنا..." autocomplete="off">
+            <button class="btn-submit" onclick="submitAnswer()">إجابة ➤</button>
+        </div>
+        <div class="duplicate-msg" id="duplicateMsg"></div>
+
+        <div class="strikes-area" id="strikesArea">
+            <div class="strike" id="strike1">❌</div>
+            <div class="strike" id="strike2">❌</div>
+            <div class="strike" id="strike3">❌</div>
+        </div>
+
+        <div class="game-controls" id="gameControls">
+            <button class="btn-control btn-reveal-all" onclick="revealAllAnswers()">👁️ كشف الكل</button>
+            <button class="btn-control btn-next" id="btnNext" onclick="nextRound()" style="display:none">السؤال التالي ➤</button>
+        </div>
+    </div>
+
+    <!-- END SCREEN -->
+    <div class="screen" id="endScreen">
+        <div class="trophy" id="endEmoji">🏆</div>
+        <div class="end-title" id="endTitle">أحسنت!</div>
+        <div class="end-score" id="endScoreText">مجموع نقاطك: 0</div>
+        <div class="stars-rating" id="starsRating">⭐⭐⭐</div>
+        <div class="end-details" id="endDetails"></div>
+
+        <div style="display:flex; gap:15px; flex-wrap:wrap; justify-content:center;">
+            <button class="btn btn-play" onclick="showScreen('setupScreen')">🔄 لعب مرة ثانية</button>
+            <button class="btn btn-back" onclick="showScreen('welcomeScreen')">🏠 القائمة الرئيسية</button>
+        </div>
+
+        <div class="confetti-container" id="confettiContainer"></div>
+    </div>
+
+    <!-- OVERLAYS -->
+    <div class="wrong-overlay" id="wrongOverlay">
+        <div class="wrong-x">✖</div>
+    </div>
+
+    <div class="correct-overlay" id="correctOverlay">
+        <div class="correct-check">✅</div>
+    </div>
+
+    <script>
+        // ==================== 115 QUESTIONS DATABASE (all with exactly 5 answers) ====================
+        const allQuestions = [
+            {
+                question: "اذكر شيء تجده في المطبخ",
+                answers: [
+                    { text: "ثلاجة", points: 40, synonyms: ["برّاد", "براد"] },
+                    { text: "فرن", points: 25, synonyms: ["طباخ", "بوتاجاز", "فرن غاز"] },
+                    { text: "صحون", points: 15, synonyms: ["أطباق", "اطباق", "صحن"] },
+                    { text: "ملاعق", points: 12, synonyms: ["ملعقة", "معالق"] },
+                    { text: "سكاكين", points: 8, synonyms: ["سكين", "سكينة"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يتأخر عن الدوام",
+                answers: [
+                    { text: "زحمة", points: 38, synonyms: ["ازدحام", "زحام", "ترافيك"] },
+                    { text: "نوم", points: 28, synonyms: ["ما صحى", "نعاس", "نايم"] },
+                    { text: "مرض", points: 16, synonyms: ["مريض", "تعب", "تعبان"] },
+                    { text: "السيارة خربانة", points: 10, synonyms: ["سيارة", "عطل", "بنشر"] },
+                    { text: "نسي شيء", points: 8, synonyms: ["نسيان", "رجع البيت", "نسى"] }
+                ]
+            },
+            {
+                question: "اذكر حيوان يخاف منه الناس",
+                answers: [
+                    { text: "ثعبان", points: 35, synonyms: ["حية", "افعى", "أفعى"] },
+                    { text: "عقرب", points: 25, synonyms: ["عقارب"] },
+                    { text: "أسد", points: 20, synonyms: ["اسد", "سبع", "ليث"] },
+                    { text: "عنكبوت", points: 12, synonyms: ["عناكب"] },
+                    { text: "فأر", points: 8, synonyms: ["فار", "جرذ"] }
+                ]
+            },
+            {
+                question: "اذكر مشروب ساخن مشهور",
+                answers: [
+                    { text: "شاي", points: 38, synonyms: ["شاهي", "تي", "چاي"] },
+                    { text: "قهوة", points: 30, synonyms: ["قهوه", "كوفي", "بن"] },
+                    { text: "حليب", points: 15, synonyms: ["لبن", "حليب ساخن"] },
+                    { text: "يانسون", points: 10, synonyms: ["ينسون"] },
+                    { text: "زنجبيل", points: 7, synonyms: ["جنزبيل"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يحتاجه الطالب في المدرسة",
+                answers: [
+                    { text: "كتاب", points: 32, synonyms: ["كتب", "كراسة"] },
+                    { text: "قلم", points: 28, synonyms: ["أقلام", "اقلام"] },
+                    { text: "حقيبة", points: 18, synonyms: ["شنطة", "شنطه"] },
+                    { text: "دفتر", points: 14, synonyms: ["دفاتر", "كراس"] },
+                    { text: "مسطرة", points: 8, synonyms: ["مسطره"] }
+                ]
+            },
+            {
+                question: "اذكر مكان يروح له الناس في الإجازة",
+                answers: [
+                    { text: "البحر", points: 35, synonyms: ["بحر", "شاطئ", "الشاطئ"] },
+                    { text: "مطعم", points: 22, synonyms: ["مطاعم"] },
+                    { text: "مول", points: 18, synonyms: ["سوق", "مركز تسوق"] },
+                    { text: "حديقة", points: 15, synonyms: ["حديقه", "بارك", "منتزه"] },
+                    { text: "سفر", points: 10, synonyms: ["مطار", "سياحة"] }
+                ]
+            },
+            {
+                question: "اذكر لون سيارة شائع",
+                answers: [
+                    { text: "أبيض", points: 35, synonyms: ["ابيض"] },
+                    { text: "أسود", points: 28, synonyms: ["اسود"] },
+                    { text: "فضي", points: 18, synonyms: ["رمادي", "سلفر"] },
+                    { text: "أحمر", points: 12, synonyms: ["احمر"] },
+                    { text: "أزرق", points: 7, synonyms: ["ازرق"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه أول ما تصحى من النوم",
+                answers: [
+                    { text: "غسل الوجه", points: 30, synonyms: ["وضوء", "غسل وجه"] },
+                    { text: "فرش الأسنان", points: 25, synonyms: ["تفريش", "فرشاة"] },
+                    { text: "شرب ماء", points: 20, synonyms: ["ماء", "مويه", "ماي"] },
+                    { text: "فطور", points: 15, synonyms: ["اكل", "فطار", "افطر"] },
+                    { text: "تصفح الجوال", points: 10, synonyms: ["جوال", "موبايل", "تلفون"] }
+                ]
+            },
+            {
+                question: "اذكر فاكهة حمراء اللون",
+                answers: [
+                    { text: "تفاح", points: 35, synonyms: ["تفاحة"] },
+                    { text: "فراولة", points: 28, synonyms: ["فراوله", "فريز"] },
+                    { text: "رمان", points: 18, synonyms: ["رمانة"] },
+                    { text: "كرز", points: 12, synonyms: ["كريز"] },
+                    { text: "بطيخ", points: 7, synonyms: ["جح", "حبحب", "رقي"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الناس تتصل بالشرطة",
+                answers: [
+                    { text: "سرقة", points: 35, synonyms: ["حرامي", "لص"] },
+                    { text: "حادث", points: 25, synonyms: ["حادث سيارة", "حادث مرور"] },
+                    { text: "مشاجرة", points: 18, synonyms: ["مضاربة", "عراك"] },
+                    { text: "إزعاج", points: 13, synonyms: ["ازعاج", "صوت عالي"] },
+                    { text: "ضياع", points: 9, synonyms: ["فقدان", "ضايع"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الحمام",
+                answers: [
+                    { text: "صابون", points: 30, synonyms: ["صابونة"] },
+                    { text: "مرآة", points: 25, synonyms: ["مرايه", "مرايا"] },
+                    { text: "فرشاة أسنان", points: 20, synonyms: ["فرشاة", "فرشه"] },
+                    { text: "شامبو", points: 15, synonyms: ["شمبو"] },
+                    { text: "منشفة", points: 10, synonyms: ["فوطة", "فوطه"] }
+                ]
+            },
+            {
+                question: "اذكر رياضة مشهورة عالمياً",
+                answers: [
+                    { text: "كرة قدم", points: 40, synonyms: ["كورة", "كوره", "فوتبول"] },
+                    { text: "كرة سلة", points: 22, synonyms: ["باسكتبول", "سلة"] },
+                    { text: "سباحة", points: 16, synonyms: ["سباحه"] },
+                    { text: "تنس", points: 12, synonyms: ["كرة مضرب"] },
+                    { text: "ملاكمة", points: 10, synonyms: ["بوكسنج"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه من البقالة كل أسبوع",
+                answers: [
+                    { text: "خبز", points: 35, synonyms: ["عيش", "توست"] },
+                    { text: "حليب", points: 25, synonyms: ["لبن"] },
+                    { text: "بيض", points: 18, synonyms: ["بيضات"] },
+                    { text: "ماء", points: 14, synonyms: ["مويه", "ماي"] },
+                    { text: "خضار", points: 8, synonyms: ["خضراوات", "خضروات"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يضيع منك دائماً",
+                answers: [
+                    { text: "مفاتيح", points: 35, synonyms: ["مفتاح"] },
+                    { text: "جوال", points: 25, synonyms: ["موبايل", "تلفون", "هاتف"] },
+                    { text: "محفظة", points: 18, synonyms: ["محفظه"] },
+                    { text: "نظارة", points: 12, synonyms: ["نظاره", "نظارات"] },
+                    { text: "ريموت", points: 10, synonyms: ["ريموت كنترول"] }
+                ]
+            },
+            {
+                question: "اذكر وظيفة يحلم فيها الأطفال",
+                answers: [
+                    { text: "طبيب", points: 35, synonyms: ["دكتور", "طبيبة"] },
+                    { text: "طيار", points: 25, synonyms: ["كابتن طيار"] },
+                    { text: "مهندس", points: 18, synonyms: ["مهندسة"] },
+                    { text: "رائد فضاء", points: 12, synonyms: ["فضاء"] },
+                    { text: "شرطي", points: 10, synonyms: ["ضابط", "عسكري"] }
+                ]
+            },
+            // ===== 100 ADDITIONAL QUESTIONS =====
+            {
+                question: "اذكر شيء تاخذه معك في السفر",
+                answers: [
+                    { text: "ملابس", points: 35, synonyms: ["هدوم", "ثياب"] },
+                    { text: "جواز سفر", points: 25, synonyms: ["جواز", "باسبورت"] },
+                    { text: "جوال", points: 18, synonyms: ["موبايل", "تلفون"] },
+                    { text: "شاحن", points: 12, synonyms: ["شاحن جوال", "شاجر"] },
+                    { text: "فلوس", points: 10, synonyms: ["نقود", "مصاري", "كاش"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يخلي الإنسان سعيد",
+                answers: [
+                    { text: "المال", points: 32, synonyms: ["فلوس", "نقود", "مال"] },
+                    { text: "العائلة", points: 28, synonyms: ["أهل", "اهل", "عيلة"] },
+                    { text: "النجاح", points: 18, synonyms: ["نجاح", "تفوق"] },
+                    { text: "السفر", points: 12, synonyms: ["سفر", "رحلة"] },
+                    { text: "الصحة", points: 10, synonyms: ["صحة", "عافية"] }
+                ]
+            },
+            {
+                question: "اذكر طعام يحبه الأطفال",
+                answers: [
+                    { text: "بيتزا", points: 35, synonyms: ["بيتسا"] },
+                    { text: "آيسكريم", points: 25, synonyms: ["ايسكريم", "جيلاتي", "بوظة"] },
+                    { text: "شوكولاتة", points: 18, synonyms: ["شوكولاته", "شكولاته"] },
+                    { text: "برجر", points: 12, synonyms: ["همبرجر", "برغر"] },
+                    { text: "بطاطس", points: 10, synonyms: ["بطاطا", "شيبس", "فرايز"] }
+                ]
+            },
+            {
+                question: "اذكر بلد عربي مشهور بالسياحة",
+                answers: [
+                    { text: "مصر", points: 35, synonyms: ["مصر"] },
+                    { text: "الإمارات", points: 25, synonyms: ["دبي", "الامارات", "ابوظبي"] },
+                    { text: "المغرب", points: 18, synonyms: ["مراكش", "المغرب"] },
+                    { text: "لبنان", points: 12, synonyms: ["بيروت"] },
+                    { text: "تونس", points: 10, synonyms: ["تونس"] }
+                ]
+            },
+            {
+                question: "اذكر شيء موجود في غرفة النوم",
+                answers: [
+                    { text: "سرير", points: 35, synonyms: ["تخت", "فراش", "فرشة"] },
+                    { text: "مخدة", points: 25, synonyms: ["وسادة", "مخده"] },
+                    { text: "خزانة", points: 18, synonyms: ["دولاب", "كبت"] },
+                    { text: "لحاف", points: 12, synonyms: ["بطانية", "غطاء", "شرشف"] },
+                    { text: "مصباح", points: 10, synonyms: ["ابجورة", "لمبة", "اباجورة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه يوم الجمعة",
+                answers: [
+                    { text: "صلاة الجمعة", points: 35, synonyms: ["صلاة", "صلاه", "مسجد"] },
+                    { text: "نوم", points: 25, synonyms: ["نوم طويل", "ارتاح"] },
+                    { text: "زيارة الأهل", points: 18, synonyms: ["زيارة", "زياره", "اهل"] },
+                    { text: "طبخ", points: 12, synonyms: ["اكل", "غداء", "عزيمة"] },
+                    { text: "تنظيف البيت", points: 10, synonyms: ["تنظيف", "ترتيب"] }
+                ]
+            },
+            {
+                question: "اذكر نوع حلويات مشهور",
+                answers: [
+                    { text: "كنافة", points: 32, synonyms: ["كنافه"] },
+                    { text: "بقلاوة", points: 25, synonyms: ["بقلاوه", "بكلاوة"] },
+                    { text: "كيك", points: 20, synonyms: ["كيكة", "تورتة", "تورته"] },
+                    { text: "بسبوسة", points: 13, synonyms: ["بسبوسه", "هريسة"] },
+                    { text: "تشيز كيك", points: 10, synonyms: ["تشيزكيك"] }
+                ]
+            },
+            {
+                question: "اذكر تطبيق يستخدمه الناس كل يوم",
+                answers: [
+                    { text: "واتساب", points: 35, synonyms: ["واتس", "واتس اب"] },
+                    { text: "انستقرام", points: 25, synonyms: ["انستا", "انستغرام"] },
+                    { text: "يوتيوب", points: 18, synonyms: ["يوتوب"] },
+                    { text: "تيك توك", points: 12, synonyms: ["تيكتوك"] },
+                    { text: "تويتر", points: 10, synonyms: ["اكس", "x"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الشارع",
+                answers: [
+                    { text: "سيارات", points: 35, synonyms: ["سيارة", "سياره"] },
+                    { text: "إشارة مرور", points: 22, synonyms: ["اشارة", "اشاره", "سيمافور"] },
+                    { text: "أشجار", points: 18, synonyms: ["شجر", "شجرة"] },
+                    { text: "ناس", points: 15, synonyms: ["أشخاص", "اشخاص", "بشر"] },
+                    { text: "محلات", points: 10, synonyms: ["محل", "دكاكين", "دكان"] }
+                ]
+            },
+            {
+                question: "اذكر حيوان أليف يربيه الناس",
+                answers: [
+                    { text: "قط", points: 35, synonyms: ["قطة", "قطه", "بسة", "هرة"] },
+                    { text: "كلب", points: 28, synonyms: ["جرو"] },
+                    { text: "عصفور", points: 16, synonyms: ["طير", "طائر", "ببغاء"] },
+                    { text: "سمكة", points: 12, synonyms: ["سمك", "اسماك"] },
+                    { text: "أرنب", points: 9, synonyms: ["ارنب"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يروح المستشفى",
+                answers: [
+                    { text: "مرض", points: 35, synonyms: ["مريض", "تعب"] },
+                    { text: "حادث", points: 25, synonyms: ["اصابة", "إصابة"] },
+                    { text: "ولادة", points: 18, synonyms: ["ولاده", "حمل"] },
+                    { text: "عملية", points: 12, synonyms: ["عمليه", "جراحة"] },
+                    { text: "فحص", points: 10, synonyms: ["كشف", "تحاليل", "أشعة"] }
+                ]
+            },
+            {
+                question: "اذكر لعبة يلعبها الأطفال",
+                answers: [
+                    { text: "كرة قدم", points: 35, synonyms: ["كورة", "كوره"] },
+                    { text: "غميضة", points: 22, synonyms: ["استغماية", "الاختباء"] },
+                    { text: "بلايستيشن", points: 18, synonyms: ["بلستيشن", "قيم", "ألعاب فيديو"] },
+                    { text: "حبل", points: 15, synonyms: ["نط الحبل"] },
+                    { text: "دراجة", points: 10, synonyms: ["سيكل", "بسكليت"] }
+                ]
+            },
+            {
+                question: "اذكر شيء لونه أصفر",
+                answers: [
+                    { text: "موز", points: 32, synonyms: ["موزة"] },
+                    { text: "شمس", points: 28, synonyms: ["الشمس"] },
+                    { text: "ليمون", points: 18, synonyms: ["ليمونة", "ليمونه"] },
+                    { text: "ذهب", points: 12, synonyms: ["الذهب"] },
+                    { text: "نجمة", points: 10, synonyms: ["نجوم", "نجمه"] }
+                ]
+            },
+            {
+                question: "اذكر مادة دراسية في المدرسة",
+                answers: [
+                    { text: "رياضيات", points: 35, synonyms: ["حساب", "رياضه"] },
+                    { text: "عربي", points: 22, synonyms: ["لغة عربية", "لغه عربيه"] },
+                    { text: "إنجليزي", points: 18, synonyms: ["انجليزي", "لغة انجليزية"] },
+                    { text: "علوم", points: 15, synonyms: ["العلوم"] },
+                    { text: "دين", points: 10, synonyms: ["تربية إسلامية", "اسلامية"] }
+                ]
+            },
+            {
+                question: "اذكر وسيلة مواصلات",
+                answers: [
+                    { text: "سيارة", points: 35, synonyms: ["سياره"] },
+                    { text: "طيارة", points: 25, synonyms: ["طائرة", "طياره"] },
+                    { text: "باص", points: 18, synonyms: ["حافلة", "حافله", "أتوبيس"] },
+                    { text: "قطار", points: 12, synonyms: ["مترو"] },
+                    { text: "تاكسي", points: 10, synonyms: ["أجرة", "اوبر"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يبتسم",
+                answers: [
+                    { text: "نكتة", points: 30, synonyms: ["ضحك", "مزحة", "مزحه"] },
+                    { text: "هدية", points: 25, synonyms: ["هديه"] },
+                    { text: "نجاح", points: 20, synonyms: ["تفوق", "تخرج"] },
+                    { text: "لقاء صديق", points: 15, synonyms: ["صديق", "صاحب"] },
+                    { text: "أخبار حلوة", points: 10, synonyms: ["خبر حلو", "بشارة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحطه على الطاولة وقت الأكل",
+                answers: [
+                    { text: "صحن", points: 30, synonyms: ["صحون", "طبق"] },
+                    { text: "ملعقة", points: 25, synonyms: ["ملاعق"] },
+                    { text: "كوب", points: 20, synonyms: ["كاس", "كأس", "كوب ماء"] },
+                    { text: "مناديل", points: 15, synonyms: ["مناديل ورقية", "محارم"] },
+                    { text: "ملح", points: 10, synonyms: ["ملاحة"] }
+                ]
+            },
+            {
+                question: "اذكر مهنة تحتاج زي رسمي",
+                answers: [
+                    { text: "شرطي", points: 32, synonyms: ["ضابط", "عسكري", "أمن"] },
+                    { text: "طبيب", points: 28, synonyms: ["دكتور"] },
+                    { text: "عسكري", points: 18, synonyms: ["جيش", "جندي"] },
+                    { text: "إطفائي", points: 12, synonyms: ["اطفائي", "رجل إطفاء"] },
+                    { text: "ممرض", points: 10, synonyms: ["ممرضة", "تمريض"] }
+                ]
+            },
+            {
+                question: "اذكر نوع جبن مشهور",
+                answers: [
+                    { text: "شيدر", points: 30, synonyms: ["تشيدر"] },
+                    { text: "موزاريلا", points: 25, synonyms: ["موتزاريلا"] },
+                    { text: "جبنة بيضاء", points: 20, synonyms: ["جبنه بيضاء", "فيتا"] },
+                    { text: "كرافت", points: 15, synonyms: ["جبنة مثلثات"] },
+                    { text: "حلوم", points: 10, synonyms: ["حلومي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه قبل ما تنام",
+                answers: [
+                    { text: "صلاة", points: 30, synonyms: ["صلاه", "دعاء"] },
+                    { text: "فرش أسنان", points: 25, synonyms: ["تفريش", "تنظيف أسنان"] },
+                    { text: "تصفح الجوال", points: 20, synonyms: ["جوال", "موبايل"] },
+                    { text: "قراءة", points: 15, synonyms: ["قراءه", "كتاب"] },
+                    { text: "إغلاق الأنوار", points: 10, synonyms: ["اطفاء النور", "طفي النور"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في المكتب",
+                answers: [
+                    { text: "كمبيوتر", points: 35, synonyms: ["كمبيوتر", "لابتوب", "حاسوب"] },
+                    { text: "مكتب", points: 22, synonyms: ["طاولة"] },
+                    { text: "كرسي", points: 18, synonyms: ["كرسي مكتب"] },
+                    { text: "أوراق", points: 15, synonyms: ["ورق", "ملفات"] },
+                    { text: "طابعة", points: 10, synonyms: ["طابعه", "برنتر"] }
+                ]
+            },
+            {
+                question: "اذكر نوع خضار أخضر",
+                answers: [
+                    { text: "خيار", points: 30, synonyms: ["خياره"] },
+                    { text: "خس", points: 25, synonyms: ["الخس"] },
+                    { text: "فلفل أخضر", points: 20, synonyms: ["فلفل"] },
+                    { text: "بقدونس", points: 15, synonyms: ["بقدونس", "معدنوس"] },
+                    { text: "جرجير", points: 10, synonyms: ["روكا"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يسبب الصداع",
+                answers: [
+                    { text: "سهر", points: 30, synonyms: ["قلة نوم", "عدم نوم"] },
+                    { text: "شمس", points: 25, synonyms: ["حر", "حرارة"] },
+                    { text: "ضغط نفسي", points: 20, synonyms: ["توتر", "ضغط", "ستريس"] },
+                    { text: "جوع", points: 15, synonyms: ["عدم اكل"] },
+                    { text: "صوت عالي", points: 10, synonyms: ["ضوضاء", "إزعاج", "ازعاج"] }
+                ]
+            },
+            {
+                question: "اذكر عاصمة عربية",
+                answers: [
+                    { text: "الرياض", points: 30, synonyms: ["رياض"] },
+                    { text: "القاهرة", points: 25, synonyms: ["قاهرة", "القاهره"] },
+                    { text: "بيروت", points: 18, synonyms: ["بيروت"] },
+                    { text: "عمّان", points: 15, synonyms: ["عمان"] },
+                    { text: "الرباط", points: 12, synonyms: ["رباط"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تستخدمه للتنظيف",
+                answers: [
+                    { text: "صابون", points: 30, synonyms: ["صابونة"] },
+                    { text: "مكنسة", points: 25, synonyms: ["مكنسه"] },
+                    { text: "ممسحة", points: 20, synonyms: ["ممسحه"] },
+                    { text: "كلور", points: 15, synonyms: ["مبيض", "مطهر"] },
+                    { text: "ديتول", points: 10, synonyms: ["معقم"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يعطيك طاقة الصبح",
+                answers: [
+                    { text: "قهوة", points: 35, synonyms: ["قهوه", "كوفي"] },
+                    { text: "فطور", points: 25, synonyms: ["اكل", "فطار"] },
+                    { text: "رياضة", points: 18, synonyms: ["رياضه", "تمارين"] },
+                    { text: "دش", points: 12, synonyms: ["استحمام", "ماء بارد"] },
+                    { text: "شاي", points: 10, synonyms: ["شاهي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يخلي الجو حلو في البيت",
+                answers: [
+                    { text: "بخور", points: 30, synonyms: ["عود"] },
+                    { text: "معطر", points: 25, synonyms: ["معطر جو", "فريش"] },
+                    { text: "ورد", points: 18, synonyms: ["زهور", "ورود"] },
+                    { text: "نظافة", points: 15, synonyms: ["ترتيب", "تنظيف"] },
+                    { text: "إضاءة", points: 12, synonyms: ["اضاءه", "شموع"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحطه في الشطيرة",
+                answers: [
+                    { text: "جبنة", points: 30, synonyms: ["جبن", "جبنه"] },
+                    { text: "خس", points: 22, synonyms: ["سلطة", "خضار"] },
+                    { text: "دجاج", points: 20, synonyms: ["فراخ"] },
+                    { text: "طماطم", points: 15, synonyms: ["بندورة", "طماط"] },
+                    { text: "مايونيز", points: 13, synonyms: ["صوص"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلبسه على رأسك",
+                answers: [
+                    { text: "شماغ", points: 30, synonyms: ["غترة", "كوفية"] },
+                    { text: "طاقية", points: 25, synonyms: ["قبعة", "كاب"] },
+                    { text: "حجاب", points: 20, synonyms: ["شيلة", "طرحة"] },
+                    { text: "خوذة", points: 15, synonyms: ["خوذه"] },
+                    { text: "عمامة", points: 10, synonyms: ["عمامه"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه في رمضان",
+                answers: [
+                    { text: "صيام", points: 35, synonyms: ["صوم"] },
+                    { text: "صلاة", points: 25, synonyms: ["تراويح", "صلاه"] },
+                    { text: "قراءة قرآن", points: 18, synonyms: ["قرآن", "قران"] },
+                    { text: "إفطار جماعي", points: 12, synonyms: ["عزيمة", "افطار"] },
+                    { text: "سهر", points: 10, synonyms: ["قيام الليل"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في محطة البنزين",
+                answers: [
+                    { text: "بنزين", points: 35, synonyms: ["وقود"] },
+                    { text: "بقالة", points: 22, synonyms: ["سوبرماركت", "متجر"] },
+                    { text: "هواء", points: 18, synonyms: ["ماكينة هواء", "منفاخ"] },
+                    { text: "غسيل سيارات", points: 15, synonyms: ["غسيل", "مغسلة"] },
+                    { text: "زيت", points: 10, synonyms: ["زيت سيارة", "زيت محرك"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يبكي",
+                answers: [
+                    { text: "حزن", points: 30, synonyms: ["زعل"] },
+                    { text: "فرح", points: 25, synonyms: ["فرحة"] },
+                    { text: "ألم", points: 18, synonyms: ["وجع"] },
+                    { text: "فراق", points: 15, synonyms: ["وداع", "فقدان"] },
+                    { text: "بصل", points: 12, synonyms: ["تقطيع بصل"] }
+                ]
+            },
+            {
+                question: "اذكر شيء كهربائي في البيت",
+                answers: [
+                    { text: "تلفزيون", points: 30, synonyms: ["تلفاز", "تلفزيون", "شاشة"] },
+                    { text: "ثلاجة", points: 25, synonyms: ["براد"] },
+                    { text: "مكيف", points: 20, synonyms: ["مكيف هواء", "تكييف"] },
+                    { text: "غسالة", points: 15, synonyms: ["غساله"] },
+                    { text: "مايكرويف", points: 10, synonyms: ["ميكرويف"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الحديقة",
+                answers: [
+                    { text: "أشجار", points: 30, synonyms: ["شجر", "شجرة"] },
+                    { text: "عشب", points: 25, synonyms: ["نجيلة", "حشيش"] },
+                    { text: "ورد", points: 18, synonyms: ["أزهار", "زهور"] },
+                    { text: "ألعاب أطفال", points: 15, synonyms: ["مراجيح", "زحليقة"] },
+                    { text: "مقاعد", points: 12, synonyms: ["كرسي", "مقعد"] }
+                ]
+            },
+            {
+                question: "اذكر نكهة آيسكريم مشهورة",
+                answers: [
+                    { text: "شوكولاتة", points: 35, synonyms: ["شوكولاته", "شكولاته"] },
+                    { text: "فانيلا", points: 25, synonyms: ["فانيليا"] },
+                    { text: "فراولة", points: 18, synonyms: ["فراوله", "فريز"] },
+                    { text: "مانجو", points: 12, synonyms: ["مانجا"] },
+                    { text: "فستق", points: 10, synonyms: ["فستقي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يأكله الناس في الفطور",
+                answers: [
+                    { text: "بيض", points: 35, synonyms: ["بيضة"] },
+                    { text: "خبز", points: 25, synonyms: ["عيش", "توست"] },
+                    { text: "جبنة", points: 18, synonyms: ["جبن"] },
+                    { text: "فول", points: 12, synonyms: ["فول مدمس"] },
+                    { text: "حبوب", points: 10, synonyms: ["كورن فليكس", "رقائق"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تستخدمه عند المطر",
+                answers: [
+                    { text: "مظلة", points: 35, synonyms: ["شمسية"] },
+                    { text: "معطف مطر", points: 25, synonyms: ["جاكيت", "معطف"] },
+                    { text: "بوت", points: 18, synonyms: ["حذاء مطر"] },
+                    { text: "سيارة", points: 12, synonyms: ["سياره"] },
+                    { text: "مناديل", points: 10, synonyms: ["فوطة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الملعب",
+                answers: [
+                    { text: "كرة", points: 35, synonyms: ["كوره"] },
+                    { text: "مرمى", points: 22, synonyms: ["قول", "مرمى كرة"] },
+                    { text: "جمهور", points: 18, synonyms: ["مشجعين", "مدرجات"] },
+                    { text: "لاعبين", points: 15, synonyms: ["لاعب"] },
+                    { text: "حكم", points: 10, synonyms: ["ريفري"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه أونلاين",
+                answers: [
+                    { text: "ملابس", points: 35, synonyms: ["هدوم", "ثياب"] },
+                    { text: "الكترونيات", points: 22, synonyms: ["جوال", "سماعات"] },
+                    { text: "أحذية", points: 18, synonyms: ["حذاء", "شوزات"] },
+                    { text: "كتب", points: 13, synonyms: ["كتاب"] },
+                    { text: "اكل", points: 12, synonyms: ["طعام", "توصيل"] }
+                ]
+            },
+            {
+                question: "اذكر سبب لزيارة الجيران",
+                answers: [
+                    { text: "سلام", points: 30, synonyms: ["تسليم", "زيارة عادية"] },
+                    { text: "مناسبة", points: 25, synonyms: ["عزيمة", "حفلة"] },
+                    { text: "طبق أكل", points: 18, synonyms: ["اكل", "طبخة"] },
+                    { text: "مساعدة", points: 15, synonyms: ["مساعده", "طلب"] },
+                    { text: "تعزية", points: 12, synonyms: ["عزاء"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يخلي الشخص يضحك",
+                answers: [
+                    { text: "نكتة", points: 35, synonyms: ["نكته"] },
+                    { text: "موقف مضحك", points: 22, synonyms: ["موقف"] },
+                    { text: "فيديو مضحك", points: 18, synonyms: ["فيديو", "ميمز"] },
+                    { text: "صديق", points: 15, synonyms: ["أصدقاء", "ربع"] },
+                    { text: "دغدغة", points: 10, synonyms: ["زغزغة"] }
+                ]
+            },
+            {
+                question: "اذكر طعام بحري مشهور",
+                answers: [
+                    { text: "سمك", points: 35, synonyms: ["سمكة"] },
+                    { text: "ربيان", points: 25, synonyms: ["جمبري", "قريدس"] },
+                    { text: "كابوريا", points: 18, synonyms: ["سلطعون", "كابورى"] },
+                    { text: "حبار", points: 12, synonyms: ["كاليماري"] },
+                    { text: "محار", points: 10, synonyms: ["أويستر"] }
+                ]
+            },
+            {
+                question: "اذكر شيء في حقيبة المرأة",
+                answers: [
+                    { text: "جوال", points: 30, synonyms: ["موبايل", "تلفون"] },
+                    { text: "محفظة", points: 25, synonyms: ["محفظه"] },
+                    { text: "مكياج", points: 20, synonyms: ["روج", "أحمر شفاه"] },
+                    { text: "مفاتيح", points: 15, synonyms: ["مفتاح"] },
+                    { text: "مناديل", points: 10, synonyms: ["محارم"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسمعه في الصباح الباكر",
+                answers: [
+                    { text: "أذان", points: 35, synonyms: ["اذان", "أذان الفجر"] },
+                    { text: "عصافير", points: 25, synonyms: ["طيور", "زقزقة"] },
+                    { text: "منبه", points: 18, synonyms: ["ساعة منبه", "ألارم"] },
+                    { text: "ديك", points: 12, synonyms: ["صياح ديك"] },
+                    { text: "سيارات", points: 10, synonyms: ["حركة مرور"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تعلقه على الحائط",
+                answers: [
+                    { text: "صورة", points: 30, synonyms: ["صور", "لوحة فنية"] },
+                    { text: "ساعة", points: 28, synonyms: ["ساعة حائط", "ساعه"] },
+                    { text: "لوحة", points: 18, synonyms: ["لوحه"] },
+                    { text: "مرآة", points: 14, synonyms: ["مرايه"] },
+                    { text: "رف", points: 10, synonyms: ["رفوف", "أرفف"] }
+                ]
+            },
+            {
+                question: "اذكر نوع شوربة مشهور",
+                answers: [
+                    { text: "شوربة عدس", points: 35, synonyms: ["عدس"] },
+                    { text: "شوربة دجاج", points: 25, synonyms: ["دجاج"] },
+                    { text: "شوربة خضار", points: 18, synonyms: ["خضار"] },
+                    { text: "شوربة طماطم", points: 12, synonyms: ["طماطم"] },
+                    { text: "شوربة شوفان", points: 10, synonyms: ["شوفان"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يحتاجه الطبيب",
+                answers: [
+                    { text: "سماعة طبية", points: 30, synonyms: ["سماعة", "سماعه"] },
+                    { text: "مشرط", points: 22, synonyms: ["مقص جراحي"] },
+                    { text: "قفازات", points: 20, synonyms: ["قفاز", "كفوف"] },
+                    { text: "ميزان حرارة", points: 15, synonyms: ["ترمومتر", "حرارة"] },
+                    { text: "روشتة", points: 13, synonyms: ["وصفة طبية", "روشته"] }
+                ]
+            },
+            {
+                question: "اذكر شيء أحمر اللون",
+                answers: [
+                    { text: "طماطم", points: 30, synonyms: ["بندورة"] },
+                    { text: "دم", points: 25, synonyms: ["الدم"] },
+                    { text: "تفاح", points: 18, synonyms: ["تفاحة"] },
+                    { text: "وردة", points: 15, synonyms: ["ورد", "ورده"] },
+                    { text: "فراولة", points: 12, synonyms: ["فراوله"] }
+                ]
+            },
+            {
+                question: "اذكر مشروب بارد مشهور",
+                answers: [
+                    { text: "ماء", points: 30, synonyms: ["مويه", "ماي"] },
+                    { text: "عصير برتقال", points: 25, synonyms: ["عصير", "برتقال"] },
+                    { text: "بيبسي", points: 18, synonyms: ["كولا", "كوكا كولا"] },
+                    { text: "ليمون بالنعناع", points: 15, synonyms: ["ليمون نعناع", "موهيتو"] },
+                    { text: "آيس تي", points: 12, synonyms: ["شاي بارد"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في المسجد",
+                answers: [
+                    { text: "سجادة", points: 30, synonyms: ["سجاد", "فرش"] },
+                    { text: "مصحف", points: 28, synonyms: ["قرآن", "قران"] },
+                    { text: "مسبحة", points: 18, synonyms: ["سبحة", "مسبحه"] },
+                    { text: "منبر", points: 14, synonyms: ["منبر الخطبة"] },
+                    { text: "ساعة", points: 10, synonyms: ["ساعة حائط"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يستخدمه الطباخ",
+                answers: [
+                    { text: "سكين", points: 30, synonyms: ["سكينة", "سكاكين"] },
+                    { text: "قدر", points: 25, synonyms: ["حلة", "طنجرة"] },
+                    { text: "ملعقة خشب", points: 18, synonyms: ["ملعقة", "مغرفة"] },
+                    { text: "مقلاة", points: 15, synonyms: ["طاوة", "مقلايه"] },
+                    { text: "لوح تقطيع", points: 12, synonyms: ["لوح خشب"] }
+                ]
+            },
+            {
+                question: "اذكر سبب للذهاب للمطعم",
+                answers: [
+                    { text: "جوع", points: 30, synonyms: ["أكل", "اكل"] },
+                    { text: "مناسبة", points: 25, synonyms: ["احتفال", "عيد ميلاد"] },
+                    { text: "ما فيه أكل بالبيت", points: 18, synonyms: ["كسل", "ما طبخت"] },
+                    { text: "تجمع أصدقاء", points: 15, synonyms: ["أصدقاء", "طلعة"] },
+                    { text: "تجربة مطعم جديد", points: 12, synonyms: ["تجربه", "جديد"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يخاف منه الأطفال",
+                answers: [
+                    { text: "ظلام", points: 35, synonyms: ["عتمة", "الظلام"] },
+                    { text: "إبرة", points: 25, synonyms: ["ابرة", "حقنة"] },
+                    { text: "وحوش", points: 18, synonyms: ["أشباح", "عفاريت"] },
+                    { text: "طبيب", points: 12, synonyms: ["دكتور"] },
+                    { text: "حشرات", points: 10, synonyms: ["صراصير", "عناكب"] }
+                ]
+            },
+            {
+                question: "اذكر يوم مميز في الأسبوع",
+                answers: [
+                    { text: "الجمعة", points: 40, synonyms: ["جمعة", "يوم الجمعة"] },
+                    { text: "السبت", points: 22, synonyms: ["سبت"] },
+                    { text: "الخميس", points: 18, synonyms: ["خميس"] },
+                    { text: "الأحد", points: 12, synonyms: ["احد"] },
+                    { text: "الاثنين", points: 8, synonyms: ["اثنين"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في السيارة",
+                answers: [
+                    { text: "مقعد", points: 28, synonyms: ["كرسي", "مقاعد"] },
+                    { text: "مرآة", points: 25, synonyms: ["مرايه", "مرايا"] },
+                    { text: "راديو", points: 20, synonyms: ["مسجل", "شاشة"] },
+                    { text: "مكيف", points: 15, synonyms: ["تكييف"] },
+                    { text: "دركسون", points: 12, synonyms: ["مقود", "طارة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحطه في القهوة",
+                answers: [
+                    { text: "سكر", points: 35, synonyms: ["سكّر"] },
+                    { text: "حليب", points: 28, synonyms: ["لبن", "كريمة"] },
+                    { text: "هيل", points: 18, synonyms: ["هال"] },
+                    { text: "قرفة", points: 10, synonyms: ["دارسين"] },
+                    { text: "زعفران", points: 9, synonyms: ["زعفران"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه في العيد",
+                answers: [
+                    { text: "صلاة العيد", points: 30, synonyms: ["صلاة", "صلاه"] },
+                    { text: "زيارة الأهل", points: 25, synonyms: ["زيارات", "أهل"] },
+                    { text: "لبس جديد", points: 18, synonyms: ["ملابس جديدة", "ثوب جديد"] },
+                    { text: "عيدية", points: 15, synonyms: ["فلوس", "عيديه"] },
+                    { text: "حلويات", points: 12, synonyms: ["كعك", "معمول"] }
+                ]
+            },
+            {
+                question: "اذكر صفة حميدة",
+                answers: [
+                    { text: "صدق", points: 30, synonyms: ["الصدق"] },
+                    { text: "أمانة", points: 25, synonyms: ["امانة", "امانه"] },
+                    { text: "كرم", points: 20, synonyms: ["الكرم", "سخاء"] },
+                    { text: "صبر", points: 15, synonyms: ["الصبر"] },
+                    { text: "تواضع", points: 10, synonyms: ["التواضع"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يصدر صوت عالي",
+                answers: [
+                    { text: "منبه", points: 28, synonyms: ["ساعة منبه"] },
+                    { text: "سيارة إسعاف", points: 25, synonyms: ["اسعاف", "صفارة"] },
+                    { text: "رعد", points: 20, synonyms: ["برق ورعد"] },
+                    { text: "بوق سيارة", points: 15, synonyms: ["هورن", "كلاكس"] },
+                    { text: "مكبر صوت", points: 12, synonyms: ["سماعة", "سبيكر"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه من المخبز",
+                answers: [
+                    { text: "خبز", points: 35, synonyms: ["عيش"] },
+                    { text: "كرواسون", points: 22, synonyms: ["كرواسان"] },
+                    { text: "كعك", points: 18, synonyms: ["كيك"] },
+                    { text: "فطائر", points: 15, synonyms: ["فطيرة", "معجنات"] },
+                    { text: "صامولي", points: 10, synonyms: ["صمون", "باجيت"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه للرحلة البرية",
+                answers: [
+                    { text: "خيمة", points: 30, synonyms: ["خيمه"] },
+                    { text: "حطب", points: 25, synonyms: ["فحم", "نار"] },
+                    { text: "ماء", points: 18, synonyms: ["مويه"] },
+                    { text: "أكل", points: 15, synonyms: ["طعام"] },
+                    { text: "بطانية", points: 12, synonyms: ["لحاف", "حرام"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في المطار",
+                answers: [
+                    { text: "طائرة", points: 30, synonyms: ["طيارة", "طائرات"] },
+                    { text: "حقائب", points: 25, synonyms: ["شنط", "أمتعة"] },
+                    { text: "جوازات", points: 20, synonyms: ["جواز سفر", "جوازات سفر"] },
+                    { text: "سير أمتعة", points: 15, synonyms: ["سير", "حزام أمتعة"] },
+                    { text: "كاونتر", points: 10, synonyms: ["منصة تسجيل"] }
+                ]
+            },
+            {
+                question: "اذكر بهار مشهور في الطبخ",
+                answers: [
+                    { text: "ملح", points: 30, synonyms: ["ملح طعام"] },
+                    { text: "فلفل أسود", points: 25, synonyms: ["فلفل"] },
+                    { text: "كركم", points: 18, synonyms: ["كركم"] },
+                    { text: "كمون", points: 15, synonyms: ["كمون"] },
+                    { text: "قرفة", points: 12, synonyms: ["دارسين"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يسويه الشخص لما يكون زعلان",
+                answers: [
+                    { text: "يبكي", points: 30, synonyms: ["بكاء"] },
+                    { text: "ينام", points: 25, synonyms: ["نوم"] },
+                    { text: "يأكل", points: 18, synonyms: ["اكل", "يوكل"] },
+                    { text: "يسمع أغاني", points: 15, synonyms: ["موسيقى", "اغاني"] },
+                    { text: "يمشي", points: 12, synonyms: ["يتمشى", "مشي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلبسه في الشتاء",
+                answers: [
+                    { text: "جاكيت", points: 35, synonyms: ["جاكت", "معطف", "كوت"] },
+                    { text: "شال", points: 22, synonyms: ["كوفية", "سكارف"] },
+                    { text: "قفازات", points: 18, synonyms: ["قفاز", "كفوف"] },
+                    { text: "جوارب", points: 15, synonyms: ["شرابات"] },
+                    { text: "بوت", points: 10, synonyms: ["حذاء شتوي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء مستدير الشكل",
+                answers: [
+                    { text: "كرة", points: 30, synonyms: ["كوره"] },
+                    { text: "ساعة", points: 25, synonyms: ["ساعه"] },
+                    { text: "عجلة", points: 18, synonyms: ["كفر", "إطار"] },
+                    { text: "بيتزا", points: 15, synonyms: ["بيتسا"] },
+                    { text: "قمر", points: 12, synonyms: ["بدر"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في صيدلية",
+                answers: [
+                    { text: "أدوية", points: 35, synonyms: ["دواء", "حبوب"] },
+                    { text: "لاصق جروح", points: 22, synonyms: ["بلاستر", "ضماد"] },
+                    { text: "ميزان حرارة", points: 18, synonyms: ["ترمومتر"] },
+                    { text: "كريم", points: 13, synonyms: ["مرهم"] },
+                    { text: "فيتامينات", points: 12, synonyms: ["فيتامين", "مكملات"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه لصنع كيكة",
+                answers: [
+                    { text: "طحين", points: 30, synonyms: ["دقيق"] },
+                    { text: "بيض", points: 25, synonyms: ["بيضة"] },
+                    { text: "سكر", points: 18, synonyms: ["سكّر"] },
+                    { text: "زبدة", points: 15, synonyms: ["سمن", "زبده"] },
+                    { text: "حليب", points: 12, synonyms: ["لبن"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في المكتبة",
+                answers: [
+                    { text: "كتب", points: 35, synonyms: ["كتاب"] },
+                    { text: "أقلام", points: 22, synonyms: ["قلم"] },
+                    { text: "دفاتر", points: 18, synonyms: ["دفتر"] },
+                    { text: "رفوف", points: 15, synonyms: ["رف"] },
+                    { text: "طابعة", points: 10, synonyms: ["برنتر", "آلة تصوير"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يميز فصل الربيع",
+                answers: [
+                    { text: "ورد", points: 30, synonyms: ["أزهار", "زهور"] },
+                    { text: "جو معتدل", points: 25, synonyms: ["جو حلو", "جو لطيف"] },
+                    { text: "خضرة", points: 18, synonyms: ["أشجار خضراء"] },
+                    { text: "فراشات", points: 15, synonyms: ["فراشة"] },
+                    { text: "نحل", points: 12, synonyms: ["نحلة"] }
+                ]
+            },
+            {
+                question: "اذكر نوع رز مشهور",
+                answers: [
+                    { text: "بسمتي", points: 35, synonyms: ["رز بسمتي"] },
+                    { text: "مصري", points: 22, synonyms: ["رز مصري"] },
+                    { text: "أمريكي", points: 18, synonyms: ["رز أمريكي"] },
+                    { text: "بني", points: 15, synonyms: ["رز بني", "رز أسمر"] },
+                    { text: "ياباني", points: 10, synonyms: ["رز سوشي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسمعه في حفل زفاف",
+                answers: [
+                    { text: "أغاني", points: 30, synonyms: ["موسيقى", "اغاني"] },
+                    { text: "تصفيق", points: 25, synonyms: ["تصفيق"] },
+                    { text: "زغاريد", points: 18, synonyms: ["زغاريد"] },
+                    { text: "ضحك", points: 15, synonyms: ["ضحكات"] },
+                    { text: "مبروك", points: 12, synonyms: ["تهاني", "ألف مبروك"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه لطفل حديث الولادة",
+                answers: [
+                    { text: "ملابس", points: 30, synonyms: ["هدوم", "ثياب"] },
+                    { text: "حفاظات", points: 25, synonyms: ["بامبرز", "حفاضات"] },
+                    { text: "حليب", points: 18, synonyms: ["رضاعة", "حليب أطفال"] },
+                    { text: "لعبة", points: 15, synonyms: ["دمية", "لعب"] },
+                    { text: "سرير أطفال", points: 12, synonyms: ["مهد", "سرير"] }
+                ]
+            },
+            {
+                question: "اذكر سبب لتأخر الطائرة",
+                answers: [
+                    { text: "طقس سيء", points: 30, synonyms: ["عاصفة", "رياح", "مطر"] },
+                    { text: "عطل فني", points: 28, synonyms: ["عطل", "خلل"] },
+                    { text: "ازدحام", points: 18, synonyms: ["زحمة مطار"] },
+                    { text: "ركاب متأخرين", points: 14, synonyms: ["ركاب", "مسافرين"] },
+                    { text: "إضراب", points: 10, synonyms: ["اضراب"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يشتهر فيه اليابان",
+                answers: [
+                    { text: "سوشي", points: 30, synonyms: ["اكل ياباني"] },
+                    { text: "تكنولوجيا", points: 25, synonyms: ["الكترونيات", "تقنية"] },
+                    { text: "أنمي", points: 20, synonyms: ["انمي", "كرتون"] },
+                    { text: "ساكورا", points: 13, synonyms: ["كرز", "ازهار الكرز"] },
+                    { text: "سيارات", points: 12, synonyms: ["تويوتا", "هوندا"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في حديقة الحيوانات",
+                answers: [
+                    { text: "أسد", points: 30, synonyms: ["اسد"] },
+                    { text: "قرد", points: 25, synonyms: ["قرود"] },
+                    { text: "زرافة", points: 18, synonyms: ["زرافه"] },
+                    { text: "فيل", points: 15, synonyms: ["فيلة"] },
+                    { text: "ببغاء", points: 12, synonyms: ["طيور"] }
+                ]
+            },
+            {
+                question: "اذكر أداة يستخدمها النجار",
+                answers: [
+                    { text: "مطرقة", points: 30, synonyms: ["شاكوش", "مطرقه"] },
+                    { text: "منشار", points: 25, synonyms: ["صاروخ"] },
+                    { text: "مسامير", points: 18, synonyms: ["مسمار"] },
+                    { text: "مفك", points: 15, synonyms: ["مفك براغي"] },
+                    { text: "متر", points: 12, synonyms: ["شريط قياس", "ميزان"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الصحراء",
+                answers: [
+                    { text: "رمل", points: 35, synonyms: ["رمال"] },
+                    { text: "جمل", points: 25, synonyms: ["ناقة", "إبل"] },
+                    { text: "نخلة", points: 18, synonyms: ["نخل"] },
+                    { text: "عقرب", points: 12, synonyms: ["عقارب"] },
+                    { text: "واحة", points: 10, synonyms: ["ماء"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يتغير لونه",
+                answers: [
+                    { text: "أوراق الشجر", points: 30, synonyms: ["ورق شجر", "أشجار"] },
+                    { text: "السماء", points: 25, synonyms: ["سماء"] },
+                    { text: "حرباء", points: 18, synonyms: ["حرباء"] },
+                    { text: "الفواكه", points: 15, synonyms: ["فاكهة", "موز"] },
+                    { text: "الشعر", points: 12, synonyms: ["شيب"] }
+                ]
+            },
+            {
+                question: "اذكر هواية مشهورة",
+                answers: [
+                    { text: "قراءة", points: 30, synonyms: ["قراءه", "مطالعة"] },
+                    { text: "رسم", points: 25, synonyms: ["تلوين"] },
+                    { text: "سباحة", points: 18, synonyms: ["سباحه"] },
+                    { text: "طبخ", points: 15, synonyms: ["طهي"] },
+                    { text: "تصوير", points: 12, synonyms: ["فوتوغرافي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه لركوب الدراجة",
+                answers: [
+                    { text: "خوذة", points: 30, synonyms: ["خوذه"] },
+                    { text: "دراجة", points: 25, synonyms: ["بسكليت", "سيكل"] },
+                    { text: "هواء في الكفرات", points: 18, synonyms: ["هواء", "نفخ"] },
+                    { text: "فرامل", points: 15, synonyms: ["بريك"] },
+                    { text: "جرس", points: 12, synonyms: ["جرس دراجة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في فندق",
+                answers: [
+                    { text: "سرير", points: 30, synonyms: ["تخت", "فرشة"] },
+                    { text: "استقبال", points: 25, synonyms: ["ريسبشن"] },
+                    { text: "مسبح", points: 18, synonyms: ["حمام سباحة"] },
+                    { text: "مصعد", points: 15, synonyms: ["اسانسير"] },
+                    { text: "بوفيه", points: 12, synonyms: ["مطعم"] }
+                ]
+            },
+            {
+                question: "اذكر عضو في جسم الإنسان يبدأ بحرف العين",
+                answers: [
+                    { text: "عين", points: 35, synonyms: ["عيون"] },
+                    { text: "عظم", points: 22, synonyms: ["عظام"] },
+                    { text: "عضلة", points: 18, synonyms: ["عضلات"] },
+                    { text: "عمود فقري", points: 15, synonyms: ["عمود"] },
+                    { text: "عصب", points: 10, synonyms: ["أعصاب"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تأخذه للشاطئ",
+                answers: [
+                    { text: "منشفة", points: 28, synonyms: ["فوطة"] },
+                    { text: "واقي شمس", points: 25, synonyms: ["كريم شمس", "صن بلوك"] },
+                    { text: "مايوه", points: 20, synonyms: ["ملابس سباحة"] },
+                    { text: "نظارة شمسية", points: 15, synonyms: ["نظارة", "نظاره"] },
+                    { text: "كرسي بحر", points: 12, synonyms: ["كرسي", "شمسية"] }
+                ]
+            },
+            {
+                question: "اذكر طعام سريع التحضير",
+                answers: [
+                    { text: "إندومي", points: 35, synonyms: ["اندومي", "نودلز"] },
+                    { text: "بيض مقلي", points: 22, synonyms: ["بيض"] },
+                    { text: "سندويش", points: 18, synonyms: ["شطيرة", "ساندويتش"] },
+                    { text: "تونة", points: 15, synonyms: ["تونه"] },
+                    { text: "سلطة", points: 10, synonyms: ["سلطه"] }
+                ]
+            },
+            {
+                question: "اذكر شيء مصنوع من الخشب",
+                answers: [
+                    { text: "باب", points: 30, synonyms: ["أبواب"] },
+                    { text: "طاولة", points: 25, synonyms: ["مكتب"] },
+                    { text: "كرسي", points: 18, synonyms: ["كراسي"] },
+                    { text: "سرير", points: 15, synonyms: ["تخت"] },
+                    { text: "خزانة", points: 12, synonyms: ["دولاب"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تفعله عند انقطاع الكهرباء",
+                answers: [
+                    { text: "شموع", points: 30, synonyms: ["إشعال شموع", "اشعال شمعة"] },
+                    { text: "كشاف", points: 25, synonyms: ["فلاش", "مصباح يدوي"] },
+                    { text: "نوم", points: 18, synonyms: ["ينام"] },
+                    { text: "جوال", points: 15, synonyms: ["يستخدم جوال"] },
+                    { text: "انتظار", points: 12, synonyms: ["صبر"] }
+                ]
+            },
+            {
+                question: "اذكر مكان تلاقي فيه كتب كثيرة",
+                answers: [
+                    { text: "مكتبة", points: 35, synonyms: ["مكتبه"] },
+                    { text: "مدرسة", points: 22, synonyms: ["مدرسه"] },
+                    { text: "جامعة", points: 18, synonyms: ["جامعه"] },
+                    { text: "معرض كتب", points: 15, synonyms: ["معرض الكتاب"] },
+                    { text: "مسجد", points: 10, synonyms: ["جامع"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه في عيد الأم",
+                answers: [
+                    { text: "ورد", points: 30, synonyms: ["باقة ورد", "زهور"] },
+                    { text: "عطر", points: 25, synonyms: ["بخور"] },
+                    { text: "ذهب", points: 18, synonyms: ["مجوهرات"] },
+                    { text: "كيكة", points: 15, synonyms: ["تورتة", "كيك"] },
+                    { text: "ملابس", points: 12, synonyms: ["شنطة", "هدية"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الثلاجة",
+                answers: [
+                    { text: "ماء", points: 28, synonyms: ["مويه", "قوارير"] },
+                    { text: "حليب", points: 25, synonyms: ["لبن"] },
+                    { text: "خضار", points: 20, synonyms: ["خضروات"] },
+                    { text: "فواكه", points: 15, synonyms: ["فاكهة"] },
+                    { text: "جبنة", points: 12, synonyms: ["جبن", "أجبان"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يذوب بالحرارة",
+                answers: [
+                    { text: "ثلج", points: 35, synonyms: ["جليد"] },
+                    { text: "شوكولاتة", points: 25, synonyms: ["شوكولاته"] },
+                    { text: "زبدة", points: 18, synonyms: ["زبده", "سمن"] },
+                    { text: "شمع", points: 12, synonyms: ["شمعة"] },
+                    { text: "آيسكريم", points: 10, synonyms: ["ايسكريم", "بوظة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه للتخييم",
+                answers: [
+                    { text: "خيمة", points: 30, synonyms: ["خيمه"] },
+                    { text: "كيس نوم", points: 25, synonyms: ["فرشة"] },
+                    { text: "ولاعة", points: 18, synonyms: ["كبريت", "نار"] },
+                    { text: "ماء", points: 15, synonyms: ["مويه"] },
+                    { text: "فانوس", points: 12, synonyms: ["مصباح", "كشاف"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في المستشفى",
+                answers: [
+                    { text: "أطباء", points: 28, synonyms: ["دكتور", "طبيب"] },
+                    { text: "سرير", points: 25, synonyms: ["أسرّة"] },
+                    { text: "أدوية", points: 20, synonyms: ["دواء"] },
+                    { text: "ممرضات", points: 15, synonyms: ["ممرض", "ممرضة"] },
+                    { text: "سيارة إسعاف", points: 12, synonyms: ["اسعاف"] }
+                ]
+            },
+            {
+                question: "اذكر عملة عربية",
+                answers: [
+                    { text: "ريال", points: 35, synonyms: ["ريال سعودي"] },
+                    { text: "جنيه", points: 22, synonyms: ["جنيه مصري"] },
+                    { text: "درهم", points: 18, synonyms: ["درهم إماراتي"] },
+                    { text: "دينار", points: 15, synonyms: ["دينار كويتي"] },
+                    { text: "ليرة", points: 10, synonyms: ["ليره"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يضايق الناس في الطائرة",
+                answers: [
+                    { text: "ضيق المقعد", points: 30, synonyms: ["مقعد صغير", "ضيق"] },
+                    { text: "طفل يبكي", points: 25, synonyms: ["بكاء طفل", "اطفال"] },
+                    { text: "اهتزاز", points: 18, synonyms: ["مطبات هوائية"] },
+                    { text: "تأخر", points: 15, synonyms: ["تأخير"] },
+                    { text: "أكل سيء", points: 12, synonyms: ["طعام"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تقوله لشخص مريض",
+                answers: [
+                    { text: "سلامتك", points: 35, synonyms: ["سلامات", "الله يشفيك"] },
+                    { text: "ما تشوف شر", points: 22, synonyms: ["ما تشوف شر"] },
+                    { text: "الله يعافيك", points: 18, synonyms: ["عافاك الله"] },
+                    { text: "تحتاج شيء", points: 13, synonyms: ["أقدر أساعدك"] },
+                    { text: "الحمد لله على السلامة", points: 12, synonyms: ["الحمدلله"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في الملاهي",
+                answers: [
+                    { text: "أرجوحة", points: 28, synonyms: ["مراجيح"] },
+                    { text: "قطار الموت", points: 25, synonyms: ["رولركوستر", "roller coaster"] },
+                    { text: "بالونات", points: 18, synonyms: ["بالون"] },
+                    { text: "آيسكريم", points: 15, synonyms: ["حلويات"] },
+                    { text: "مهرج", points: 14, synonyms: ["مهرجين"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يصنع من الزجاج",
+                answers: [
+                    { text: "كوب", points: 30, synonyms: ["كاس", "كأس"] },
+                    { text: "نافذة", points: 25, synonyms: ["شباك", "زجاج نافذة"] },
+                    { text: "مرآة", points: 18, synonyms: ["مرايه"] },
+                    { text: "نظارة", points: 15, synonyms: ["نظارات"] },
+                    { text: "قارورة", points: 12, synonyms: ["زجاجة"] }
+                ]
+            },
+            {
+                question: "اذكر نوع معكرونة مشهور",
+                answers: [
+                    { text: "سباغيتي", points: 35, synonyms: ["اسباجيتي", "سباقتي"] },
+                    { text: "بيني", points: 22, synonyms: ["بنّي"] },
+                    { text: "فيتوتشيني", points: 18, synonyms: ["فتوتشيني"] },
+                    { text: "لازانيا", points: 15, synonyms: ["لازانيا"] },
+                    { text: "مكرونة حلزونية", points: 10, synonyms: ["فوسيلي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه في غرفة الانتظار",
+                answers: [
+                    { text: "كراسي", points: 35, synonyms: ["كرسي", "مقاعد"] },
+                    { text: "مجلات", points: 22, synonyms: ["جرائد", "صحف"] },
+                    { text: "تلفزيون", points: 18, synonyms: ["شاشة", "تلفاز"] },
+                    { text: "ماء", points: 15, synonyms: ["مبرد ماء", "كولر"] },
+                    { text: "ساعة", points: 10, synonyms: ["ساعة حائط"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تسويه يوم الجمعة بعد الصلاة",
+                answers: [
+                    { text: "غداء عائلي", points: 30, synonyms: ["غداء", "أكل", "عزيمة"] },
+                    { text: "نوم", points: 25, synonyms: ["قيلولة"] },
+                    { text: "زيارة", points: 18, synonyms: ["زيارة أهل", "زياره"] },
+                    { text: "تنزه", points: 15, synonyms: ["طلعة", "سوق"] },
+                    { text: "جلسة عائلية", points: 12, synonyms: ["جلسة", "قعدة"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يغير وظيفته",
+                answers: [
+                    { text: "راتب أعلى", points: 30, synonyms: ["راتب", "فلوس", "معاش"] },
+                    { text: "بيئة عمل سيئة", points: 25, synonyms: ["مدير سيء", "ضغط"] },
+                    { text: "فرصة أفضل", points: 18, synonyms: ["ترقية", "تطوير"] },
+                    { text: "ملل", points: 15, synonyms: ["روتين"] },
+                    { text: "قرب من البيت", points: 12, synonyms: ["بعد المسافة", "مسافة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء ممنوع في السينما",
+                answers: [
+                    { text: "تصوير", points: 30, synonyms: ["تسجيل", "كاميرا"] },
+                    { text: "كلام بصوت عالي", points: 25, synonyms: ["كلام", "إزعاج"] },
+                    { text: "جوال", points: 18, synonyms: ["رنين الجوال"] },
+                    { text: "تدخين", points: 15, synonyms: ["سجائر"] },
+                    { text: "أكل من برا", points: 12, synonyms: ["أكل خارجي"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تلاقيه عند البائع المتجول",
+                answers: [
+                    { text: "ذرة", points: 28, synonyms: ["ذره"] },
+                    { text: "عصير", points: 25, synonyms: ["عصيرات"] },
+                    { text: "فشار", points: 20, synonyms: ["بوب كورن"] },
+                    { text: "آيسكريم", points: 15, synonyms: ["بوظة"] },
+                    { text: "بطاطس", points: 12, synonyms: ["شيبس"] }
+                ]
+            },
+            {
+                question: "اذكر شيء له أزرار",
+                answers: [
+                    { text: "ريموت", points: 30, synonyms: ["ريموت كنترول"] },
+                    { text: "جوال", points: 25, synonyms: ["هاتف", "موبايل"] },
+                    { text: "قميص", points: 18, synonyms: ["ثوب"] },
+                    { text: "مصعد", points: 15, synonyms: ["اسانسير"] },
+                    { text: "لابتوب", points: 12, synonyms: ["كيبورد", "كمبيوتر"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تخزنه لوقت الحاجة",
+                answers: [
+                    { text: "فلوس", points: 30, synonyms: ["نقود", "مال"] },
+                    { text: "أكل", points: 25, synonyms: ["طعام", "معلبات"] },
+                    { text: "ماء", points: 20, synonyms: ["مويه"] },
+                    { text: "أدوية", points: 15, synonyms: ["دواء"] },
+                    { text: "ملابس", points: 10, synonyms: ["ثياب"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تشتريه من محل الجوالات",
+                answers: [
+                    { text: "جوال", points: 30, synonyms: ["موبايل", "هاتف"] },
+                    { text: "شاحن", points: 25, synonyms: ["شاجر"] },
+                    { text: "جراب", points: 18, synonyms: ["كفر", "غطاء"] },
+                    { text: "سماعات", points: 15, synonyms: ["سماعة", "ايربودز"] },
+                    { text: "لصق حماية", points: 12, synonyms: ["سكرين", "لاصق شاشة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يشتهر فيه لبنان",
+                answers: [
+                    { text: "أكل", points: 30, synonyms: ["طبخ", "مطبخ لبناني"] },
+                    { text: "أرز لبنان", points: 22, synonyms: ["شجرة الأرز", "ارز"] },
+                    { text: "فيروز", points: 18, synonyms: ["فيروز"] },
+                    { text: "تبولة", points: 15, synonyms: ["تبوله"] },
+                    { text: "جبال", points: 15, synonyms: ["جبل"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يشتهر فيه مصر",
+                answers: [
+                    { text: "أهرامات", points: 35, synonyms: ["الاهرامات", "هرم"] },
+                    { text: "نيل", points: 22, synonyms: ["نهر النيل"] },
+                    { text: "كشري", points: 18, synonyms: ["كشرى"] },
+                    { text: "أبو الهول", points: 13, synonyms: ["ابو الهول"] },
+                    { text: "فول وطعمية", points: 12, synonyms: ["فول", "طعمية", "فلافل"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه للصيد",
+                answers: [
+                    { text: "سنارة", points: 35, synonyms: ["صنارة"] },
+                    { text: "طعم", points: 22, synonyms: ["دود", "طعم سمك"] },
+                    { text: "خيط", points: 18, synonyms: ["خيط صيد"] },
+                    { text: "قارب", points: 15, synonyms: ["قارب صيد"] },
+                    { text: "صبر", points: 10, synonyms: ["وقت"] }
+                ]
+            },
+            {
+                question: "اذكر مكان تلاقي فيه ناس كثير",
+                answers: [
+                    { text: "مول", points: 30, synonyms: ["سوق", "مجمع"] },
+                    { text: "مسجد", points: 25, synonyms: ["جامع"] },
+                    { text: "ملعب", points: 18, synonyms: ["استاد"] },
+                    { text: "مطار", points: 15, synonyms: ["مطارات"] },
+                    { text: "مدرسة", points: 12, synonyms: ["جامعة"] }
+                ]
+            },
+            {
+                question: "اذكر شيء تحتاجه عشان ترسم",
+                answers: [
+                    { text: "ورق", points: 30, synonyms: ["ورقة", "كراسة"] },
+                    { text: "ألوان", points: 25, synonyms: ["لون", "أقلام ألوان"] },
+                    { text: "قلم رصاص", points: 18, synonyms: ["قلم"] },
+                    { text: "ممحاة", points: 15, synonyms: ["ممحاه", "استيكة"] },
+                    { text: "فرشاة", points: 12, synonyms: ["فرشه"] }
+                ]
+            },
+            {
+                question: "اذكر طائر مشهور",
+                answers: [
+                    { text: "نسر", points: 28, synonyms: ["عقاب"] },
+                    { text: "صقر", points: 25, synonyms: ["صقور"] },
+                    { text: "ببغاء", points: 20, synonyms: ["ببغاوات"] },
+                    { text: "حمامة", points: 15, synonyms: ["حمام"] },
+                    { text: "عصفور", points: 12, synonyms: ["عصافير"] }
+                ]
+            },
+            {
+                question: "اذكر شيء يحتاجه المسافر في الشتاء",
+                answers: [
+                    { text: "ملابس ثقيلة", points: 30, synonyms: ["جاكيت", "معطف"] },
+                    { text: "قفازات", points: 25, synonyms: ["كفوف"] },
+                    { text: "شال", points: 18, synonyms: ["سكارف"] },
+                    { text: "بوت", points: 15, synonyms: ["حذاء شتوي"] },
+                    { text: "مدفأة", points: 12, synonyms: ["سخان", "هيتر"] }
+                ]
+            },
+            {
+                question: "اذكر سبب يخلي الشخص يفرح",
+                answers: [
+                    { text: "نجاح", points: 30, synonyms: ["تخرج", "شهادة"] },
+                    { text: "زواج", points: 25, synonyms: ["عرس", "خطوبة"] },
+                    { text: "مولود جديد", points: 18, synonyms: ["مولود", "طفل"] },
+                    { text: "ترقية", points: 15, synonyms: ["وظيفة جديدة"] },
+                    { text: "هدية", points: 12, synonyms: ["مفاجأة"] }
+                ]
+            }
+        ];
+
+        // ==================== GAME STATE ====================
+        let gameState = {
+            playerName: "اللاعب",
+            score: 0,
+            currentRound: 0,
+            totalRounds: 10,
+            strikes: 0,
+            roundPot: 0,
+            revealedAnswers: [],
+            questions: [],
+            currentQuestion: null,
+            roundOver: false,
+            soundEnabled: true,
+            totalCorrect: 0,
+            totalWrong: 0
+        };
+
+        // ==================== AUDIO ====================
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioCtx();
+        }
+
+        function playTone(freq, duration, type = 'sine', volume = 0.3) {
+            if (!gameState.soundEnabled) return;
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = type;
+                osc.frequency.value = freq;
+                gain.gain.value = volume;
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch(e) {}
+        }
+
+        function playCorrectSound() {
+            playTone(523, 0.15); setTimeout(() => playTone(659, 0.15), 100); setTimeout(() => playTone(784, 0.3), 200);
+        }
+        function playWrongSound() {
+            playTone(200, 0.3, 'sawtooth', 0.2); setTimeout(() => playTone(150, 0.4, 'sawtooth', 0.2), 200);
+        }
+        function playRevealSound() {
+            playTone(440, 0.1); setTimeout(() => playTone(880, 0.2), 100);
+        }
+        function playWinSound() {
+            [523,659,784,1047,784,1047].forEach((n,i) => setTimeout(() => playTone(n,0.2), i*150));
+        }
+        function toggleSound() {
+            gameState.soundEnabled = !gameState.soundEnabled;
+            document.getElementById('soundToggle').textContent = gameState.soundEnabled ? '🔊' : '🔇';
+        }
+
+        // ==================== PARTICLES ====================
+        function createParticles() {
+            const c = document.getElementById('particles');
+            c.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random()*100+'%';
+                p.style.animationDuration = (Math.random()*10+8)+'s';
+                p.style.animationDelay = (Math.random()*10)+'s';
+                p.style.width = (Math.random()*4+2)+'px';
+                p.style.height = p.style.width;
+                c.appendChild(p);
+            }
+        }
+
+        // ==================== NAVIGATION ====================
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if (id === 'welcomeScreen') updateHighScoreDisplay();
+        }
+
+        // ==================== HIGH SCORE ====================
+        function getHighScore() { return parseInt(localStorage.getItem('familyFeud_highScore') || '0'); }
+        function setHighScore(s) { localStorage.setItem('familyFeud_highScore', s.toString()); }
+        function updateHighScoreDisplay() {
+            const hs = getHighScore();
+            document.getElementById('welcomeHighScore').textContent = hs > 0 ? `🏆 أعلى نتيجة: ${hs} نقطة` : '';
+        }
+
+        // ==================== SETUP ====================
+        let selectedRounds = 10;
+        function selectRounds(num, btn) {
+            selectedRounds = num;
+            document.querySelectorAll('.round-option').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        // ==================== START GAME ====================
+        function startGame() {
+            const name = document.getElementById('playerName').value.trim() || 'اللاعب';
+            const shuffled = [...allQuestions].sort(() => Math.random() - 0.5);
+            const numRounds = Math.min(selectedRounds, shuffled.length);
+
+            gameState = {
+                playerName: name,
+                score: 0,
+                currentRound: 0,
+                totalRounds: numRounds,
+                strikes: 0,
+                roundPot: 0,
+                revealedAnswers: [],
+                questions: shuffled.slice(0, numRounds),
+                currentQuestion: null,
+                roundOver: false,
+                soundEnabled: gameState.soundEnabled,
+                totalCorrect: 0,
+                totalWrong: 0
+            };
+
+            showScreen('gameScreen');
+            loadRound();
+        }
+
+        // ==================== LOAD ROUND ====================
+        function loadRound() {
+            const q = gameState.questions[gameState.currentRound];
+            gameState.currentQuestion = q;
+            gameState.strikes = 0;
+            gameState.roundPot = 0;
+            gameState.revealedAnswers = [];
+            gameState.roundOver = false;
+
+            document.getElementById('playerNameDisplay').textContent = gameState.playerName;
+            document.getElementById('playerScore').textContent = gameState.score;
+            document.getElementById('roundNumber').textContent = `الجولة ${gameState.currentRound + 1} من ${gameState.totalRounds}`;
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('roundPot').textContent = '0';
+            document.getElementById('duplicateMsg').textContent = '';
+
+            const progress = ((gameState.currentRound) / gameState.totalRounds) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            for (let i = 1; i <= 3; i++) document.getElementById('strike' + i).classList.remove('active');
+
+            const board = document.getElementById('answersBoard');
+            board.innerHTML = '';
+            q.answers.forEach((ans, i) => {
+                board.innerHTML += `
+                    <div class="answer-row" id="answerRow${i}">
+                        <div class="answer-number">${i + 1}</div>
+                        <div class="answer-text hidden-text" id="answerText${i}">${ans.text}</div>
+                        <div class="answer-points hidden-points" id="answerPoints${i}">${ans.points}</div>
+                    </div>`;
+            });
+
+            document.getElementById('btnNext').style.display = 'none';
+            document.getElementById('inputArea').style.display = 'flex';
+            document.getElementById('strikesArea').style.display = 'flex';
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').placeholder = 'اكتب إجابتك هنا...';
+            document.getElementById('answerInput').focus();
+        }
+
+        // ==================== ANSWER MATCHING ====================
+        function normalizeText(text) {
+            return text.trim()
+                .replace(/[أإآ]/g, 'ا')
+                .replace(/ة/g, 'ه')
+                .replace(/ى/g, 'ي')
+                .replace(/ؤ/g, 'و')
+                .replace(/ئ/g, 'ي')
+                .replace(/[ًٌٍَُِّْ]/g, '')
+                .replace(/\s+/g, ' ')
+                .toLowerCase();
+        }
+
+        function levenshtein(a, b) {
+            const m = [];
+            for (let i = 0; i <= b.length; i++) m[i] = [i];
+            for (let j = 0; j <= a.length; j++) m[0][j] = j;
+            for (let i = 1; i <= b.length; i++)
+                for (let j = 1; j <= a.length; j++)
+                    m[i][j] = b[i-1] === a[j-1] ? m[i-1][j-1] : Math.min(m[i-1][j-1]+1, m[i][j-1]+1, m[i-1][j]+1);
+            return m[b.length][a.length];
+        }
+
+        function matchAnswer(input) {
+            const ni = normalizeText(input);
+            if (!ni) return -1;
+            const q = gameState.currentQuestion;
+            for (let i = 0; i < q.answers.length; i++) {
+                if (gameState.revealedAnswers.includes(i)) continue;
+                const ans = q.answers[i];
+                const variants = [normalizeText(ans.text), ...ans.synonyms.map(normalizeText)];
+                for (const v of variants) {
+                    if (ni === v) return i;
+                    if (ni.length >= 3 && v.includes(ni)) return i;
+                    if (v.length >= 3 && ni.includes(v)) return i;
+                    if (ni.length >= 3 && v.length >= 3) {
+                        const dist = levenshtein(ni, v);
+                        if (dist / Math.max(ni.length, v.length) <= 0.3) return i;
+                    }
+                }
+            }
+            return -1;
+        }
+
+        // ==================== SUBMIT ANSWER ====================
+        function submitAnswer() {
+            if (gameState.roundOver) return;
+            const input = document.getElementById('answerInput').value.trim();
+            if (!input) return;
+            document.getElementById('duplicateMsg').textContent = '';
+
+            const idx = matchAnswer(input);
+            if (idx >= 0) {
+                if (gameState.revealedAnswers.includes(idx)) {
+                    document.getElementById('duplicateMsg').textContent = '⚠️ هذي الإجابة مكشوفة من قبل!';
+                    document.getElementById('answerInput').value = '';
+                    return;
+                }
+                revealAnswer(idx);
+                playCorrectSound();
+                showCorrectOverlay();
+                gameState.totalCorrect++;
+
+                if (gameState.revealedAnswers.length === gameState.currentQuestion.answers.length) {
+                    gameState.score += gameState.roundPot;
+                    document.getElementById('playerScore').textContent = gameState.score;
+                    endRound(true);
+                }
+            } else {
+                playWrongSound();
+                showWrongOverlay();
+                gameState.totalWrong++;
+                gameState.strikes++;
+                document.getElementById('strike' + gameState.strikes).classList.add('active');
+
+                if (gameState.strikes >= 3) {
+                    gameState.score += gameState.roundPot;
+                    document.getElementById('playerScore').textContent = gameState.score;
+                    endRound(false);
+                }
+            }
+            document.getElementById('answerInput').value = '';
+            document.getElementById('answerInput').focus();
+        }
+
+        // ==================== REVEAL ====================
+        function revealAnswer(index) {
+            gameState.revealedAnswers.push(index);
+            const ans = gameState.currentQuestion.answers[index];
+            gameState.roundPot += ans.points;
+
+            document.getElementById('answerRow' + index).classList.add('revealed');
+            document.getElementById('answerText' + index).classList.remove('hidden-text');
+            document.getElementById('answerPoints' + index).classList.remove('hidden-points');
+            document.getElementById('roundPot').textContent = gameState.roundPot;
+            playRevealSound();
+        }
+
+        function revealAllAnswers() {
+            const q = gameState.currentQuestion;
+            for (let i = 0; i < q.answers.length; i++) {
+                if (!gameState.revealedAnswers.includes(i)) {
+                    const row = document.getElementById('answerRow' + i);
+                    row.classList.add('revealed-miss');
+                    document.getElementById('answerText' + i).classList.remove('hidden-text');
+                    document.getElementById('answerPoints' + i).classList.remove('hidden-points');
+                }
+            }
+        }
+
+        // ==================== OVERLAYS ====================
+        function showWrongOverlay() {
+            const o = document.getElementById('wrongOverlay');
+            o.classList.add('show');
+            o.style.animation = 'none'; o.offsetHeight; o.style.animation = 'wrongFade 1s ease forwards';
+            setTimeout(() => o.classList.remove('show'), 1000);
+        }
+        function showCorrectOverlay() {
+            const o = document.getElementById('correctOverlay');
+            o.classList.add('show');
+            o.style.animation = 'none'; o.offsetHeight; o.style.animation = 'correctFade 0.8s ease forwards';
+            setTimeout(() => o.classList.remove('show'), 800);
+        }
+
+        // ==================== ROUND END ====================
+        function endRound(allFound) {
+            gameState.roundOver = true;
+            document.getElementById('inputArea').style.display = 'none';
+            document.getElementById('btnNext').style.display = 'inline-block';
+            revealAllAnswers();
+
+            if (allFound) {
+                document.getElementById('duplicateMsg').innerHTML = '🎉 <span style="color:#2ecc71">ممتاز! كشفت كل الإجابات!</span>';
+            } else {
+                document.getElementById('duplicateMsg').innerHTML = '❌ <span style="color:#e74c3c">3 أخطاء! حصلت على ' + gameState.roundPot + ' نقطة</span>';
+            }
+        }
+
+        function nextRound() {
+            gameState.currentRound++;
+            if (gameState.currentRound >= gameState.totalRounds) {
+                showEndScreen();
+                return;
+            }
+            loadRound();
+        }
+
+        // ==================== END SCREEN ====================
+        function showEndScreen() {
+            showScreen('endScreen');
+            playWinSound();
+
+            const score = gameState.score;
+            const maxPossible = gameState.questions.reduce((sum, q) => sum + q.answers.reduce((s, a) => s + a.points, 0), 0);
+            const percent = Math.round((score / maxPossible) * 100);
+
+            let stars, emoji, title;
+            if (percent >= 80) { stars = '⭐⭐⭐⭐⭐'; emoji = '🏆'; title = 'أسطوري! 🔥'; }
+            else if (percent >= 60) { stars = '⭐⭐⭐⭐'; emoji = '🥇'; title = 'ممتاز! 💪'; }
+            else if (percent >= 40) { stars = '⭐⭐⭐'; emoji = '🥈'; title = 'جيد جداً! 👏'; }
+            else if (percent >= 20) { stars = '⭐⭐'; emoji = '🥉'; title = 'لا بأس! 👍'; }
+            else { stars = '⭐'; emoji = '💪'; title = 'حاول مرة ثانية! 🔄'; }
+
+            document.getElementById('endEmoji').textContent = emoji;
+            document.getElementById('endTitle').textContent = title;
+            document.getElementById('endScoreText').textContent = `مجموع نقاطك: ${score}`;
+            document.getElementById('starsRating').textContent = stars;
+            document.getElementById('endDetails').innerHTML =
+                `✅ إجابات صحيحة: ${gameState.totalCorrect}<br>
+                 ❌ إجابات خاطئة: ${gameState.totalWrong}<br>
+                 📊 النسبة: ${percent}% من أقصى نتيجة<br>
+                 🎯 عدد الأسئلة: ${gameState.totalRounds}`;
+
+            const hs = getHighScore();
+            if (score > hs) {
+                setHighScore(score);
+                document.getElementById('endDetails').innerHTML += '<br><br>🎊 <span style="color:#FFD700; font-size:1.3rem">رقم قياسي جديد!</span> 🎊';
+            } else if (hs > 0) {
+                document.getElementById('endDetails').innerHTML += `<br><br>🏆 أعلى نتيجة: ${hs}`;
+            }
+
+            document.getElementById('progressBar').style.width = '100%';
+            launchConfetti();
+        }
+
+        // ==================== CONFETTI ====================
+        function launchConfetti() {
+            const c = document.getElementById('confettiContainer');
+            c.innerHTML = '';
+            const colors = ['#FFD700','#FF6347','#4A90D9','#2ecc71','#9b59b6','#FFA500','#e74c3c'];
+            const shapes = ['■','●','▲','★','♦'];
+            for (let i = 0; i < 80; i++) {
+                const p = document.createElement('div');
+                p.className = 'confetti-piece';
+                p.textContent = shapes[Math.floor(Math.random()*shapes.length)];
+                p.style.left = Math.random()*100+'%';
+                p.style.color = colors[Math.floor(Math.random()*colors.length)];
+                p.style.fontSize = (Math.random()*20+10)+'px';
+                p.style.animationDuration = (Math.random()*3+2)+'s';
+                p.style.animationDelay = (Math.random()*2)+'s';
+                c.appendChild(p);
+            }
+        }
+
+        // ==================== KEYBOARD ====================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && document.getElementById('gameScreen').classList.contains('active')) {
+                submitAnswer();
+            }
+        });
+
+        // ==================== INIT ====================
+        createParticles();
+        updateHighScoreDisplay();
+    </script>
+</body>
+</html>
